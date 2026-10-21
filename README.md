@@ -1,205 +1,99 @@
-# 💌 Animesh & Dakshita — Interactive Wedding Invitation
+# Animesh & Dakshita — Wedding Invitation
 
-An elegant, mobile-first digital wedding invitation web application featuring royal Indian aesthetics, fluid animations, ambient music, an interactive scratch-to-reveal card, and a real-time countdown timer.
+A responsive, illustrated wedding invitation based on the Jain family's printed invitation cards. Built with plain HTML, CSS, and JavaScript, with no build step or runtime dependencies.
 
-Built purely with vanilla **HTML5**, **CSS3**, and **JavaScript** — lightweight, fast, zero runtime dependencies, and fully responsive across smartphones, tablets, and desktop displays.
+## Run locally
 
----
+```sh
+python -m http.server 3000 --bind 0.0.0.0
+```
 
-## ✨ Features
+Open `http://localhost:3000`. The same files can be hosted on GitHub Pages or any static web host; no API keys, environment variables, or backend are needed.
 
-- **💌 Interactive Envelope Opening:**
-  - Realistic 3D-style folded envelope with wax seal (`A+D`).
-  - Smooth flap unseal animation that unlocks the invitation and scroll controls.
-  - User gesture triggers background audio playback seamlessly in compliance with browser autoplay policies.
+## Cinematic scroll experience
 
-- **🎵 Ambient Background Music:**
-  - Plays traditional celebratory music (*Din Shagna Da*).
-  - Floating, non-intrusive audio control button with pulse animation and dynamic play/pause icons.
+The page opens on a full-screen pair of illustrated burgundy-and-gold mandap gates. **Scroll down** to swing the gates open in 3D and reveal Animesh & Dakshita inside a flower-draped mandap. Scrolling back reverses the opening.
 
-- **✨ Interactive Gold Scratch Card:**
-  - HTML5 Canvas-powered interactive scratch-off gold foil texture with metallic sheen and shimmer animation.
-  - Scratching reveals the wedding ceremony date.
-  - Automatically completes revelation when over 50% is scratched.
-  - Accessible fallback reveal button for convenience.
+- A sticky opening scene uses native page scrolling, not wheel/touch interception or a scroll library.
+- Separate landscape and portrait mandap artwork and door designs keep the scene composed on desktops and phones.
+- Layered garden zoom, foreground foliage, falling petals, and the name reveal move at different speeds.
+- The invitation follows with staggered typography, ceremony-card entrances, venue reveals, gently moving artwork, and a reading-progress line.
+- **Skip intro** jumps directly to the invitation and moves keyboard focus to the invitation heading.
+- **Motion on / off** lets guests disable the effects without losing their place in later sections; the choice lasts for the browser session.
+- A system `prefers-reduced-motion` setting takes priority: gates stay open, pinning is removed, and all content remains visible. Live preference changes are supported. Without JavaScript, the mandap also remains open.
+- A single on-demand `requestAnimationFrame` updates scroll transforms. Section reveals use `IntersectionObserver`, and intro petals pause when the scene is offscreen.
 
-- **⏳ Real-Time Countdown Timer:**
-  - Dynamically calculates remaining Days, Hours, Minutes, and Seconds until the main wedding auspicious moment.
-  - Gracefully slides into view once the date is revealed.
+## Design and interactions
 
-- **🌸 Ambient Petal Fall Animation:**
-  - Lightweight DOM-based falling rose and marigold petals drifting gently across the screen with randomized trajectories and speeds.
+- Warm ivory, burgundy, and antique-gold styling, with desktop and mobile layouts.
+- Custom AI-generated wedding illustration, optimized as WebP; original inline SVG ceremony illustrations. Artwork is decorative, not a photograph of the couple or the actual venues.
+- Animated petals, gently moving ceremony artwork, subtle sparkles, and scroll reveals. `prefers-reduced-motion` disables nonessential animation.
+- Locally hosted Cormorant Garamond, Manrope, and Noto Serif Devanagari fonts. Licenses are included in `assets/fonts/`.
+- Keyboard-accessible day tabs, mobile navigation, visible focus states, and a native calendar dialog.
+- Countdown to **20 November 2026, 00:00 India Standard Time**, independent of the visitor's timezone. It updates its message when the wedding day arrives and after it ends.
+- Google Calendar link for the two-day celebration and an Apple/Outlook-compatible `.ics` download containing all eight timed programme items. Calendar times are stored in UTC so calendar apps display them correctly in the viewer's timezone.
+- Google Maps search links for both venues and the family residence.
+- Opt-in music using the repository's existing `music/din-shagna-da.mp3`; no autoplay. Confirm rights to the supplied recording before public distribution.
+- Native sharing with clipboard and manual-copy fallbacks.
 
-- **📜 Illustrated Celebration Timeline ("A Week of Joy"):**
-  - Themed cards for each ceremony: **Haldi**, **Sangeet**, **Gaudev**, **Saptapadi**, and **Varmala**.
-  - Custom inline SVG illustrations with adaptable palettes for groom and bride attire matching the mood of each ceremony.
-  - Event details including dates, timings, venues, and descriptions.
+## Programme
 
-- **📍 Venue & Navigation:**
-  - Responsive Google Maps embed for The Sage & Marigold Estate, Amer Road, Jaipur.
-  - One-click **"Get Directions"** button linking directly to Google Maps turn-by-turn navigation.
+All printed times are **India Standard Time (UTC+05:30)**.
 
-- **♿ Accessibility & Performance:**
-  - Full respect for `prefers-reduced-motion` (disables heavy particle effects and auto-reveals hidden scratch content).
-  - Semantic HTML tags, clear ARIA labels (`aria-pressed`, `aria-label`), and visible focus rings.
-  - Zero heavy external libraries or frameworks — loads instantaneously.
+### Thursday, 19 November 2026
 
----
+| Event          | Time             |
+| -------------- | ---------------- |
+| Haldi          | 10:30 AM onwards |
+| Chak           | 2:00 PM          |
+| Ladies Sangeet | 4:00 PM          |
+| Dinner         | 6:30 PM          |
+| Bhaat          | 8:00 PM          |
 
-## 🎨 Color Palette & Typography
+**The Royal Dreams Banquet**
 
-### Design Tokens
+A-1/23, Opp. Dashrath Puri Metro Station, Gate No. 1, Dwarka Sector-1A, Dabri Palam Road, New Delhi-110045.
 
-| Variable | Color Name | Hex Code | Purpose |
-| :--- | :--- | :--- | :--- |
-| `--sindoor` | Sindoor Red | `#A23B4E` | Primary accent, headings, badges |
-| `--marigold` | Marigold Gold | `#E3A039` | Haldi accents, envelope seal, CTA buttons |
-| `--sage` | Sage Green | `#DCE7D6` | Ambient stage backdrop, serene secondary tone |
-| `--sage-deep`| Deep Sage | `#AFC6A5` | Envelope gradients, foliage ornaments |
-| `--ivory` | Warm Ivory | `#FBF5EC` | Invitation card background, clean paper texture |
-| `--blush` | Soft Blush | `#F3C6CE` | Falling petals, ambient radial accents |
-| `--ink` | Deep Sepia Ink| `#3A2E26` | High-contrast readable body typography |
+### Friday, 20 November 2026
 
-### Typography
+| Event                             | Time    | Location         |
+| --------------------------------- | ------- | ---------------- |
+| Ghurchari                         | 5:00 PM | Family residence |
+| Departure of Baraat               | 6:30 PM | Family residence |
+| Baraat re-assembly near the venue | 7:30 PM | Wisteria         |
 
-- **Display / Headings:** [Fraunces](https://fonts.google.com/specimen/Fraunces) (Sophisticated high-contrast variable serif)
-- **Calligraphy / Script:** [WindSong](https://fonts.google.com/specimen/WindSong) (Expressive cursive script for couple names & accents)
-- **Body & Metadata:** [Jost](https://fonts.google.com/specimen/Jost) (Clean, modern geometric sans-serif)
+**Family residence:** A-82, Dashrath Puri, New Delhi-110045.
 
----
+**Wedding venue:** Wisteria, DDA Sports Complex, Gate No. 3, Sector-11, Dwarka, New Delhi-110075.
 
-## 📂 Project Structure
+The invitation does not specify a separate wedding ceremony time or event end times; none have been invented. The calendar entries record the printed start times. RSVP family names are shown as supplied; there is no RSVP form or phone number because contact details were not provided.
+
+## Files and editing
 
 ```text
-public_html/
-├── index.html               # Main invitation page (markup, CSS styles, & JS logic)
-├── music/
-│   └── din-shagna-da.mp3    # Background audio track
-└── README.md                # Project documentation
+index.html          Invitation, family details, SVG artwork, event and venue markup
+styles.css          Responsive styling, typography, and animations
+app.js              Countdown, calendar data, navigation, tabs, sharing, and music
+motion.css          Mandap, 3D gates, scene layers, reveals, motion controls
+motion.js           Scroll choreography, parallax, reveal observers, motion preferences
+assets/
+  wedding-portrait.webp
+  mandap-garden.webp
+  mandap-garden-mobile.webp
+  mandap-door.svg
+  mandap-door-mobile.svg
+  favicon.svg
+  fonts/            Self-hosted fonts and licenses
+music/
+  din-shagna-da.mp3  Existing audio asset
 ```
 
----
+If an event changes, update both its visible details in `index.html` and the `programme` / `googleDetails` calendar data in `app.js`. Map links use the full printed address rather than unverified coordinates. The share button uses the current page URL, so after deployment it shares the production invitation automatically.
 
-## 🚀 Getting Started
+## Verification
 
-No compilation, transpilation, or package installation is required.
+Checked in headless Chromium at viewport widths **320, 360, 390, 760, 768, 1024, and 1440 pixels**, with no horizontal overflow. Verified mobile menu, keyboard tab switching, dialog dismissal, music play/pause, calendar download with eight entries and RFC-compliant line folding, reduced-motion behavior, image/font loading, and the post-wedding countdown. Automated axe WCAG 2 A/AA and WCAG 2.1 AA checks passed on the default rendered page. External Maps and Google Calendar links require internet access.
 
-### 1. View Directly in Browser
-Simply double-click [`index.html`](file:///c:/Users/Aman/Downloads/public_html/index.html) or right-click and choose **Open With > Google Chrome / Safari / Edge / Firefox**.
+### Cinematic regression checks
 
-### 2. Run with a Local Web Server (Recommended)
-Running through an HTTP server ensures audio files, external fonts, and iframe embeds load without local file restriction warnings.
-
-#### Using Python (built-in):
-```bash
-# Python 3.x
-python -m http.server 8000
-```
-Then visit: `http://localhost:8000`
-
-#### Using Node.js:
-```bash
-npx serve .
-# or
-npx http-server .
-```
-
-#### Using VS Code:
-Install the **Live Server** extension, right-click [`index.html`](file:///c:/Users/Aman/Downloads/public_html/index.html), and select **"Open with Live Server"**.
-
----
-
-## 🛠️ Customization Guide
-
-All configuration resides in [`index.html`](file:///c:/Users/Aman/Downloads/public_html/index.html). Here is how to personalize it:
-
-### 1. Couple & Family Names
-Search for `.names` and `.parents` around line 429:
-```html
-<h1 class="names">Animesh<span class="amp">&amp;</span>Dakshita</h1>
-<p class="parents">
-  S/o Mr. [Groom's Father] &amp; Mrs. [Groom's Mother]<br>
-  D/o Mr. [Bride's Father] &amp; Mrs. [Bride's Mother]
-</p>
-```
-Also update the envelope monogram seal (line 402):
-```html
-<div class="envelope-seal">A+D</div>
-```
-
-### 2. Wedding Date & Countdown Target
-- **Scratch Card Date Display** (line 441):
-  ```html
-  <span class="scratch-value">20th November 2026</span>
-  ```
-- **Countdown JavaScript Target** (line 670):
-  ```javascript
-  // Set in ISO 8601 format with timezone offset:
-  const target = new Date('2026-11-20T10:00:00+05:30').getTime();
-  ```
-
-### 3. Events & Schedule
-Ceremony cards are structured inside `<section class="panel panel--events">`. You can edit dates, timings, venues, and descriptions for each:
-- `Haldi` (line 461)
-- `Sangeet` (line 485)
-- `Gaudev` (line 511)
-- `Saptapadi` (line 532)
-- `Varmala` (line 556)
-
-### 4. Venue & Directions Link
-Update the Google Maps iframe source and directions link around line 602:
-```html
-<div class="map-embed">
-  <iframe title="Venue location map" src="https://www.google.com/maps?q=YOUR_VENUE_LOCATION&output=embed"></iframe>
-</div>
-<a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=YOUR_VENUE_LOCATION" target="_blank" rel="noopener">
-  Get Directions
-</a>
-```
-
-### 5. Background Audio
-Replace `music/din-shagna-da.mp3` with your preferred `.mp3` track, or change the `<source>` tag in `index.html`:
-```html
-<audio id="bgMusic" loop preload="none">
-  <source src="music/your-audio-track.mp3" type="audio/mpeg">
-</audio>
-```
-
-### 6. Event Hashtag & Footer Note
-Modify the footer tags around line 609:
-```html
-<p class="footer-hash">#ANIDAKSHI2026</p>
-<p class="footer-note">Made with love, for the ones we love most.</p>
-```
-
----
-
-## 🌐 Deployment
-
-Because this is a completely static project, it can be hosted anywhere for free in seconds:
-
-### GitHub Pages
-1. Push this repository to GitHub.
-2. In the repository settings, navigate to **Settings > Pages**.
-3. Under **Build and deployment > Branch**, select `main` and root `/`.
-4. Click **Save**. Your site will be live at `https://<username>.github.io/<repo-name>/`.
-
-### Vercel / Netlify / Cloudflare Pages
-- Connect the Git repository and deploy with default static settings (no build command, output directory `.`).
-
-### Traditional Web Hosting (cPanel / Apache / Nginx)
-- Upload all files into your server's `public_html` directory.
-
----
-
-## 📱 Browser Compatibility
-
-- **Chrome / Edge / Chromium:** Full support (Desktop & Mobile)
-- **Safari / iOS Safari:** Full support (including touch canvas scratch interactions and audio toggle)
-- **Firefox:** Full support
-
----
-
-## 📄 License
-
-This project is open for personal use and customization for your special celebrations.
+Verified gate transforms at closed, partially open, and fully open scroll positions; reversing the scroll; keyboard focus after skipping; preservation of reading position when motion is toggled; live reduced-motion changes; seven responsive widths; 320×568 portrait and 844×390 landscape layouts; and the no-JavaScript open-gate fallback. Automated axe WCAG A/AA checks passed for the closed/open intro, both programme tabs, and the calendar dialog. Existing calendar, navigation, sharing UI, countdown, and audio behavior remain in place.
