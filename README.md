@@ -33,7 +33,7 @@ The page opens on a full-screen pair of illustrated burgundy-and-gold mandap gat
 - Countdown to **20 November 2026, 00:00 India Standard Time**, independent of the visitor's timezone. It updates its message when the wedding day arrives and after it ends.
 - Google Calendar link for the two-day celebration and an Apple/Outlook-compatible `.ics` download containing all eight timed programme items. Calendar times are stored in UTC so calendar apps display them correctly in the viewer's timezone.
 - Google Maps search links for both venues and the family residence.
-- Opt-in music using the repository's existing `music/din-shagna-da.mp3`; no autoplay. Confirm rights to the supplied recording before public distribution.
+- Music attempts to start on the first scroll, touch swipe, or keyboard scroll using the existing `music/din-shagna-da.mp3`. Browsers that block audible playback on scrolling show a ‘Tap for music’ hint and retry on the next tap/click or scroll key. Guests can pause or resume using the music button; later scrolling never overrides a manual pause. Confirm rights to the supplied recording before public distribution.
 - Native sharing with clipboard and manual-copy fallbacks.
 
 ## Programme
@@ -66,7 +66,7 @@ A-1/23, Opp. Dashrath Puri Metro Station, Gate No. 1, Dwarka Sector-1A, Dabri Pa
 
 **Wedding venue:** Wisteria, DDA Sports Complex, Gate No. 3, Sector-11, Dwarka, New Delhi-110075.
 
-The invitation does not specify a separate wedding ceremony time or event end times; none have been invented. The calendar entries record the printed start times. RSVP family names are shown as supplied; there is no RSVP form or phone number because contact details were not provided.
+The invitation does not specify a separate wedding ceremony time or event end times; none have been invented. The calendar entries record the printed start times. The RSVP section is omitted; the family welcome and grandparents’ best compliments remain.
 
 ## Files and editing
 

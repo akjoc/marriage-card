@@ -250,10 +250,16 @@ document.querySelector("#download-calendar").addEventListener("click", () => {
   notify("Your calendar file is ready. Open it to add the celebrations.");
 });
 
-// Audio always starts with a deliberate user gesture; no surprise autoplay.
+// Start music on the first scroll. Browsers may require a subsequent tap/key
+// before allowing audible playback; never override a guest's manual pause.
 const audio = document.querySelector("#bg-music");
 const musicButton = document.querySelector("#music-toggle");
 let audioPending = false;
+let automaticMusic = true;
+let scrollMusicAttempted = false;
+let musicNeedsGesture = false;
+const initialScrollY = window.scrollY;
+
 function updateMusic() {
   const playing = !audio.paused;
   musicButton.setAttribute("aria-pressed", String(playing));
@@ -263,28 +269,89 @@ function updateMusic() {
   );
   musicButton.querySelector(".music-label").textContent = playing
     ? "Music on"
-    : "A little music?";
+    : musicNeedsGesture ? "Tap for music" : "A little music?";
 }
-musicButton.addEventListener("click", async () => {
-  if (audioPending) return;
-  if (!audio.paused) {
-    audio.pause();
-    return;
-  }
+
+function stopAutomaticMusic() {
+  automaticMusic = false;
+  window.removeEventListener("scroll", onMusicScroll);
+  window.removeEventListener("wheel", onMusicWheel);
+  window.removeEventListener("touchmove", onMusicTouchMove);
+  document.removeEventListener("keydown", onMusicKey);
+  document.removeEventListener("pointerup", onMusicGesture);
+}
+
+async function startMusic(manual = false) {
+  if (audioPending || !audio.paused) return;
   audioPending = true;
+  musicNeedsGesture = false;
   try {
     audio.volume = 0.35;
     await audio.play();
-  } catch {
-    notify("Music could not play. Please try again.");
+    stopAutomaticMusic();
+  } catch (error) {
+    // A blocked autoplay attempt is expected on some browsers, not a media error.
+    musicNeedsGesture = (manual || automaticMusic) && error.name === "NotAllowedError";
+    if (manual) notify("Music could not play. Please try again.");
   } finally {
     audioPending = false;
     updateMusic();
+  }
+}
+
+function startMusicOnScroll() {
+  if (!automaticMusic || scrollMusicAttempted) return;
+  scrollMusicAttempted = true;
+  void startMusic();
+}
+function onMusicScroll() {
+  if (window.scrollY !== initialScrollY) startMusicOnScroll();
+}
+function onMusicWheel(event) {
+  if (event.deltaY !== 0 && !event.ctrlKey) startMusicOnScroll();
+}
+function onMusicTouchMove() {
+  startMusicOnScroll();
+}
+function onMusicKey(event) {
+  if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey) return;
+  if (event.target.closest("input, textarea, select, button, a, [contenteditable]")) return;
+  if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
+    if (automaticMusic && musicNeedsGesture) void startMusic();
+    else startMusicOnScroll();
+  }
+}
+function onMusicGesture(event) {
+  // Let the music button's own click handler control playback without a race.
+  if (event.target.closest("#music-toggle")) return;
+  if (automaticMusic && musicNeedsGesture) void startMusic();
+}
+window.addEventListener("scroll", onMusicScroll, { passive: true });
+window.addEventListener("wheel", onMusicWheel, { passive: true });
+window.addEventListener("touchmove", onMusicTouchMove, { passive: true });
+document.addEventListener("keydown", onMusicKey);
+document.addEventListener("pointerup", onMusicGesture);
+
+musicButton.addEventListener("click", () => {
+  stopAutomaticMusic();
+  musicNeedsGesture = false;
+  if (audioPending) {
+    audio.pause();
+    updateMusic();
+    return;
+  }
+  if (!audio.paused) {
+    audio.pause();
+    updateMusic();
+  } else {
+    void startMusic(true);
   }
 });
 audio.addEventListener("play", updateMusic);
 audio.addEventListener("pause", updateMusic);
 audio.addEventListener("error", () => {
+  musicNeedsGesture = false;
+  stopAutomaticMusic();
   updateMusic();
   notify("Music is unavailable right now. Please try again later.");
 });
